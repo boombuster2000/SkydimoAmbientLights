@@ -44,7 +44,7 @@ public struct ColorRgb(byte r, byte g, byte b)
 public class SkydimoLedDriver : IDisposable
 {
     private readonly SerialPort _serialPort;
-    private byte[] _ledBuffer;
+    private byte[] _ledBuffer = null!;
     private const int HeaderSize = 6;
     private readonly ColorRgb[] _currentColors;
 
@@ -427,6 +427,6 @@ public class SkydimoLedDriver : IDisposable
     public void Dispose()
     {
         Close();
-        _serialPort?.Dispose();
+        _serialPort.Dispose();
     }
 }
