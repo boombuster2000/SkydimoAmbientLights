@@ -14,13 +14,13 @@ public static class Program
         Console.WriteLine("Skydimo LED Controller Ready!");
         Console.WriteLine($"Controlling {driver.LedCount} LEDs");
         
-        // Keep sending the same frame periodically
-        var keepAliveTimer = new System.Timers.Timer(1000);
-        keepAliveTimer.Elapsed += (_, _) => driver.Fill(255, 0, 0);
-        keepAliveTimer.Start();
+        using var timer = new Timer(
+            state => ((SkydimoLedDriver)state!).Fill(255, 0, 0),
+            driver,
+            TimeSpan.Zero,
+            TimeSpan.FromSeconds(1)
+        );
 
         Console.ReadLine();
-        keepAliveTimer.Stop();
-
     }
 }
